@@ -1,0 +1,13 @@
+App(
+    appid="macos_dotkiller",
+    name="macOS .dotfiles Killer",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="flipper_dotkiller_app",
+    cdefines=["DOTKILLER"],
+    requires=[
+        "gui",
+    ],
+    stack_size=2 * 1024,
+    fap_icon="dkilla.png",
+    fap_category="Tools",
+)
