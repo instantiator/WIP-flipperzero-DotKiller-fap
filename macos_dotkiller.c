@@ -34,11 +34,11 @@ static void dotkill_input_callback(InputEvent* input_event, void* ctx) {
 }
 
 static void dotkill_render_callback(Canvas* canvas, void* ctx) {
-    	DotKillContext* context = ctx;
+    DotKillContext* context = ctx;
     
-    	canvas_clear(canvas);
+    canvas_clear(canvas);
     
-    	canvas_draw_box(canvas, 0, 0, 127, 63);
+    canvas_draw_box(canvas, 0, 0, 127, 63);
 	canvas_set_color(canvas, ColorWhite);
 
 	canvas_draw_line(canvas, 0, 16, 127, 16);
