@@ -79,17 +79,12 @@ static void delete_dotfiles_recursively(const char* path) {
                 char filepath[128];
                 snprintf(filepath, sizeof(filepath), "%s/%s", path, filename);
 
-                // Check if the filepath matches any of the excluded dotfile paths
-                bool isExcluded = strcmp(filepath, "/ext/apps_data/.passport.settings") == 0 ||
-                                  strcmp(filepath, "/ext/apps_data/snake/.snake") == 0 ||
-                                  strcmp(filepath, "/ext/badusb/.badusb.settings") == 0;
-
-                if (!isExcluded && filename[0] == '.') {
+                if (!isExcluded && filename[0] == '._') {
                     file_remove(filepath);
                 }
             } else if (file_iterator_current_type(iterator) == FileTypeDirectory) {
                 const char* dirname = file_iterator_current_name(iterator);
-                if (dirname[0] != '.') {
+                if (dirname[0] != '._') {
                     char dirpath[128];
                     snprintf(dirpath, sizeof(dirpath), "%s/%s", path, dirname);
                     delete_dotfiles_recursively(dirpath);
