@@ -1,5 +1,4 @@
-# flipperzero-dotkiller-fap
-WIP - (AT NOW BUILT FOR ROGUEMASTER CUSTOM FIRMWARE, need to be adapted to be used on other FirmWares).      
+# flipperzero-dotkiller-fap     
 Clean .dotfiles left behind after plugging FLIPPER SD into macOS system directly from you Flipper Zero
 
 This FAP (Flipper APplication) do the same work that the "dotclean" shell's command do on macOS.      
