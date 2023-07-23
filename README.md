@@ -9,15 +9,16 @@ Since i am not a C developer and I'm doing this also to learn how to interface m
 # Todo:  
 
 - [ ] Add some bubbles (dots) on the background.    
-- [ ] Adding deleting process animation (vibro, sound and led light).     
+- [ ] Adding deleting process animation
+- [ ] Add end process confirmation (vibro, sound and led light).     
 - [ ] Adding personal image to confirm the cancellation.      
 - [ ] Add an advice if there are no files to delete.     
 - [ ] In the lower right space, replace the 'back' button with 'settings', in which will be present:    
 
   - select only one folder in which cancel files.   
   - set a period to automatically run the app (dayly/weekly/monthly).   
-  - select only vibro/sound/led or only two, or all of them.    
-  - info/about
+  - select only vibro/sound/led or only two, or all of them to confirm the finish.    
+  - info/about.
 
 
 That's it that's all. Thank you very much!!
