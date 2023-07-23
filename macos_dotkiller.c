@@ -39,28 +39,28 @@ static void dotkill_render_callback(Canvas* canvas, void* ctx) {
     canvas_clear(canvas);
     
     canvas_draw_box(canvas, 0, 0, 127, 63);
-	canvas_set_color(canvas, ColorWhite);
+    canvas_set_color(canvas, ColorWhite);
 
-	canvas_draw_line(canvas, 0, 16, 127, 16);
+    canvas_draw_line(canvas, 0, 16, 127, 16);
 
-	canvas_set_font(canvas, FontSecondary);
-	canvas_draw_str(canvas, 22, 30, "Delete all the useless");
+    canvas_set_font(canvas, FontSecondary);
+    canvas_draw_str(canvas, 22, 30, "Delete all the useless");
 
-	canvas_set_font(canvas, FontSecondary);
-	canvas_draw_str(canvas, 9, 40, ".dotfiles created by macOS");
+    canvas_set_font(canvas, FontSecondary);
+    canvas_draw_str(canvas, 9, 40, ".dotfiles created by macOS");
 
-	canvas_draw_icon(canvas, 65, 52, &I_Ok_btn_9x9);
+    canvas_draw_icon(canvas, 65, 52, &I_Ok_btn_9x9);
 
-	canvas_set_font(canvas, FontSecondary);
-	canvas_draw_str(canvas, 77, 60, "Kill them all");
+    canvas_set_font(canvas, FontSecondary);
+    canvas_draw_str(canvas, 77, 60, "Kill them all");
 
-	canvas_draw_icon(canvas, 4, 52, &I_Pin_back_arrow_10x8);
+    canvas_draw_icon(canvas, 4, 52, &I_Pin_back_arrow_10x8);
 
-	canvas_set_font(canvas, FontSecondary);
-	canvas_draw_str(canvas, 18, 60, "Exit");
+    canvas_set_font(canvas, FontSecondary);
+    canvas_draw_str(canvas, 18, 60, "Exit");
 
-	canvas_set_font(canvas, FontPrimary);
-	canvas_draw_str(canvas, 35, 12, "DOTKILLER");
+    canvas_set_font(canvas, FontPrimary);
+    canvas_draw_str(canvas, 35, 12, "DOTKILLER");
 	
 	if (context->confirmDelete) {
         canvas_set_font(canvas, FontPrimary);
