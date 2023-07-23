@@ -79,7 +79,7 @@ static void delete_dotfiles_recursively(const char* path) {
                 char filepath[128];
                 snprintf(filepath, sizeof(filepath), "%s/%s", path, filename);
 
-                if (!isExcluded && filename[0] == '._') {
+                if (filename[0] == '._') {
                     file_remove(filepath);
                 }
             } else if (file_iterator_current_type(iterator) == FileTypeDirectory) {
