@@ -18,14 +18,12 @@
 
 #define STORAGE_EXT_PATH_PREFIX "/ext"
 
-// Definizione della funzione handle_input_event
 static void handle_input_event(InputKey key) {
     switch (key) {
         case InputKeyUp:
         case InputKeyDown:
         case InputKeyRight:
         case InputKeyLeft:
-            // Gestione degli eventi per i tasti Up, Down, Right, Left
             break;
         case InputKeyOk:
             if (show_confirm_dialog("Are you sure that you want to cancel all the useless hidden files created by macOS in your Flipper Zero?\nPress \"OK\" to confirm, or \"BACK\" to go back.") == DialogResultOk) {
