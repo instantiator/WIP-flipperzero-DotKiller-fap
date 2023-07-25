@@ -4,7 +4,6 @@
 #include <gui/gui.h>
 #include <gui/canvas.h>
 #include <gui/elements.h>
-#include <input/input.h>
 #include <dialogs/dialogs.h>
 #include <storage/storage.h>
 
