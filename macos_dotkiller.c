@@ -1,9 +1,9 @@
 #include <furi.h>
 #include <furi_hal.h>
-
 #include <gui/gui.h>
 #include <gui/canvas.h>
 #include <gui/elements.h>
+#include <input/input.h>
 #include <dialogs/dialogs.h>
 #include <storage/storage.h>
 
@@ -17,6 +17,20 @@
 #include "assets_icons.h"
 
 #define STORAGE_EXT_PATH_PREFIX "/ext"
+
+static bool processing = true;
+
+static DialogResult show_confirm_dialog(const char* message) {
+    FuriString* temp_str = furi_string_alloc();
+    furi_string_cat_printf(temp_str, "\e#%s\n", "Confirmation");
+    furi_string_cat_printf(temp_str, "%s\n", message);
+
+    DialogResult result = show_dialog(DialogTypeConfirmation, temp_str->c_str(), NULL, 0);
+
+    furi_string_free(temp_str);
+
+    return result;
+}
 
 static void handle_input_event(InputKey key) {
     switch (key) {
