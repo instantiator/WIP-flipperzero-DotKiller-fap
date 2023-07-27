@@ -1,81 +1,86 @@
 #include <furi.h>
 #include <furi_hal.h>
 #include <gui/gui.h>
-#include <gui/canvas.h>
-#include <gui/elements.h>
 #include <input/input.h>
-#include <dialogs/dialogs.h>
 #include <storage/storage.h>
-
+#include <gui/elements.h>
+#include <dialogs/dialogs.h>
 #include <stream/stream.h>
-#include <stream/buffered_file_stream.h>
-#include <toolbox/stream/file_stream.h>
 
 #include <stdlib.h>
 
-#include "macos_dotkiller_icons.h"
 #include "assets_icons.h"
+#include "macos_dotkiller_icons.h"
+// some icons in my /images folder, are also in the standard assets this is why i included both but maybe just mine (the second) it would be ok	
 
 #define STORAGE_EXT_PATH_PREFIX "/ext"
+// this line is also defined in "storage.h" but better to be sure :)
 
-static bool processing = true;
+static bool dotkiller_enabled = false;
+static bool confirm_removal = false;
 
-static DialogResult show_confirm_dialog(const char* message) {
-    FuriString* temp_str = furi_string_alloc();
-    furi_string_cat_printf(temp_str, "\e#%s\n", "Confirmation");
-    furi_string_cat_printf(temp_str, "%s\n", message);
+void remove_hidden_files() {
+    Storage storage;
+    StorageEntry entry;
+    StorageIterator iterator;
 
-    DialogResult result = show_dialog(DialogTypeConfirmation, temp_str->c_str(), NULL, 0);
+    storage_init(&storage);
 
-    furi_string_free(temp_str);
+    storage_iterator_init(&iterator, STORAGE_EXT_PATH_PREFIX);
 
-    return result;
+    while (storage_iterator_next(&iterator, &entry) == StorageIteratorStatusOk) {
+        if (strstr(entry.name, "._") == entry.name) {
+            char full_path[256];
+            snprintf(full_path, sizeof(full_path), "%s/%s", STORAGE_EXT_PATH_PREFIX, entry.name);
+
+            storage_common_remove(&storage, full_path);
+        }
+    }
+
+    storage_iterator_close(&iterator);
+
+    storage_deinit(&storage);
 }
 
-static void handle_input_event(InputKey key) {
-    switch (key) {
-        case InputKeyUp:
-        case InputKeyDown:
-        case InputKeyRight:
-        case InputKeyLeft:
-            break;
-        case InputKeyOk:
-            if (show_confirm_dialog("Are you sure that you want to cancel all the useless hidden files created by macOS in your Flipper Zero?\nPress \"OK\" to confirm, or \"BACK\" to go back.") == DialogResultOk) {
-                StorageIterator* iterator = storage_iterator_alloc(STORAGE_EXT_PATH_PREFIX);
-                if (iterator) {
-                    while (storage_iterator_has_next(iterator)) {
-                        const char* file_name = storage_iterator_next(iterator);
-                        if (file_name[0] == '.' && file_name[1] == '_') {
-                            char file_path[128];
-                            snprintf(file_path, sizeof(file_path), "%s/%s", STORAGE_EXT_PATH_PREFIX, file_name);
-                            storage_common_remove(file_path);
-                        }
-                    }
-                    storage_iterator_free(iterator);
+static void dotkill_input_callback(InputEvent* event, void* context) {
+    UNUSED(context);
+    if (event->type == EventTypeKey && event->input.type == InputTypePress) {
+        switch (event->input.key) {
+            case InputKeyUp:
+            case InputKeyDown:
+            case InputKeyRight:
+            case InputKeyLeft:
+                break;
+            case InputKeyOk:
+                if (dotkiller_enabled) {
+                    confirm_removal = dialogs_confirm(
+                        "Are you sure that you want to cancel all the useless hiddenfiles created by macOS in you Flipper Zero? Press \"OK\" to confirm, or \"BACK\" to go back.");
+                } else {
+                    dotkiller_enabled = true;
+                    dialogs_info("DotKiller enabled. Press OK to start the process.");
                 }
-            }
-            break;
-        case InputKeyBack:
-            processing = false;
-            break;
-        default:
-            break;
+                break;
+            case InputKeyBack:
+                if (confirm_removal) {
+                    dotkiller_enabled = false;
+                    remove_hidden_files();
+                    confirm_removal = false;
+                } else if (dotkiller_enabled) {
+                    dotkiller_enabled = false;
+                    dialogs_info("DotKiller disabled.");
+                } else {
+                    view_dispatcher_stop((ViewDispatcher*)context);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 
-static void dotkill_input_callback(Event event, void* data) {
-    UNUSED(data);
-
-    if (event.type == EventTypeKey && event.input.type == InputTypePress) {
-        handle_input_event(event.input.key);
-    }
-}
-
-
-static void dotkill_render_callback(Canvas* canvas, void* data) {
-    UNUSED(data);
-
-    canvas_draw_frame(canvas, 0, 0, 128, 64);
+static void dotkill_render_callback(Canvas* canvas, void* context) {
+    UNUSED(canvas);
+    UNUSED(context);
     canvas_draw_frame(canvas, 0, 0, 128, 64);
 	canvas_draw_box(canvas, 6, 6, 5, 14);
 	canvas_draw_box(canvas, 12, 6, 4, 2);
@@ -157,32 +162,31 @@ static void dotkill_render_callback(Canvas* canvas, void* data) {
 	canvas_draw_str(canvas, 87, 54, "Exit")
 	canvas_draw_icon(canvas, 74, 46, &I_Pin_back_arrow_10x8)
 	canvas_draw_icon(canvas, 70, 26, &I_Ok_btn_9x9)
+	extern const Icon I_Target_40x40;
 	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40)
 	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40)
 
 }
 
-int32_t flipper_dotkiller_app() {
-    Gui* gui = furi_record_open(RECORD_GUI);
-    FuriMessageQueue* event_queue = furi_message_queue_alloc(8, sizeof(InputEvent));
-    
+int32_t flipper_dotkiller_app(void* p) {
+    UNUSED(p);
+    InputEvent event;
+    ViewDispatcher* view_dispatcher = view_dispatcher_alloc();
     ViewPort* view_port = view_port_alloc();
-    view_port_draw_callback_set(view_port, dotkill_render_callback, view_port);
-    view_port_input_callback_set(view_port, dotkill_input_callback, event_queue);
-    
+
+    view_port_draw_callback_set(view_port, dotkill_render_callback, NULL);
+    view_port_input_callback_set(view_port, dotkill_input_callback, view_dispatcher);
+
+    Gui* gui = furi_record_open(RECORD_GUI);
     gui_add_view_port(gui, view_port, GuiLayerFullscreen);
-    
-    while (processing) {
-        InputEvent event;
-        while (furi_message_queue_poll(event_queue, &event) == FuriStatusOk) {
-            if (event.type == EventTypeKey && event.input.type == InputTypePress) {
-                handle_input_event(event.input.key);
-            }
-        }
+
+    while (1) {
+        furi_check(furi_message_queue_get(gui->message_queue, &event, FuriWaitForever) == FuriStatusOk);
+        view_dispatcher_run(view_dispatcher);
     }
-    
-    gui_close(gui);
-    furi_message_queue_free(event_queue);
-    
+
+    view_dispatcher_free(view_dispatcher);
+    view_port_free(view_port);
+    furi_record_close(RECORD_GUI);
     return 0;
 }
