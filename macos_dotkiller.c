@@ -9,6 +9,8 @@
 
 #include <stdlib.h>
 
+#include "confirm_dotkiller.h"
+
 #include "assets_icons.h"
 #include "macos_dotkiller_icons.h"
 // some icons in my /images folder, are also in the standard assets this is why i included both but maybe just mine (the second) it would be ok	
@@ -44,6 +46,7 @@ void remove_hidden_files() {
 
 static void dotkill_input_callback(InputEvent* event, void* context) {
     UNUSED(context);
+
     if (event->type == EventTypeKey && event->input.type == InputTypePress) {
         switch (event->input.key) {
             case InputKeyUp:
@@ -51,27 +54,16 @@ static void dotkill_input_callback(InputEvent* event, void* context) {
             case InputKeyRight:
             case InputKeyLeft:
                 break;
+
             case InputKeyOk:
-                if (dotkiller_enabled) {
-                    confirm_removal = dialogs_confirm(
-                        "Are you sure that you want to cancel all the useless hiddenfiles created by macOS in you Flipper Zero? Press \"OK\" to confirm, or \"BACK\" to go back.");
-                } else {
-                    dotkiller_enabled = true;
-                    dialogs_info("DotKiller enabled. Press OK to start the process.");
-                }
+                dotkiller_enabled = true;
+                show_confirmation_screen();
                 break;
+
             case InputKeyBack:
-                if (confirm_removal) {
-                    dotkiller_enabled = false;
-                    remove_hidden_files();
-                    confirm_removal = false;
-                } else if (dotkiller_enabled) {
-                    dotkiller_enabled = false;
-                    dialogs_info("DotKiller disabled.");
-                } else {
-                    view_dispatcher_stop((ViewDispatcher*)context);
-                }
+                view_dispatcher_stop((ViewDispatcher*)context);
                 break;
+
             default:
                 break;
         }
