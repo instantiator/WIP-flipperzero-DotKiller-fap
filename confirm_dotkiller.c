@@ -18,14 +18,18 @@ static void confirm_input_callback(InputEvent* event, void* context) {
 
     if (event->type == EventTypeKey && event->input.type == InputTypePress) {
         switch (event->input.key) {
+	    case InputKeyUp:
+            case InputKeyDown:
+            case InputKeyOk:
+		break;
             case InputKeyLeft:
                 confirm_removal = false;
                 break;
 
             case InputKeyRight:
-    			confirm_removal = true;
-    			remove_hidden_files();
-    			break;
+    		confirm_removal = true;
+    		remove_hidden_files();
+    		break;
             
             case InputKeyBack:
                 confirm_removal = false;
