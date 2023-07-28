@@ -157,7 +157,6 @@ static void dotkill_render_callback(Canvas* canvas, void* context) {
 	canvas_draw_icon(canvas, 70, 26, &I_Ok_btn_9x9);
 	extern const Icon I_Target_40x40;
 	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40);
-	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40);
 
 }
 
