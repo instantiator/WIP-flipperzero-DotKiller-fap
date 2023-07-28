@@ -18,6 +18,7 @@ Since i am not a C developer and I'm doing this also to learn how to interface m
   - set a period to automatically run the app (dayly/weekly/monthly).   
   - select only vibro/sound/led or only two, or all of them to confirm the finish.    
   - info/about.
+  - exit. (possible also keeping pressed the Back button)
 
 
 That's it that's all. Thank you very much!!
