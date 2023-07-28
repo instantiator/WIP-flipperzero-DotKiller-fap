@@ -6,7 +6,6 @@
 #include <gui/elements.h>
 #include <dialogs/dialogs.h>
 #include <stream/stream.h>
-#include <view/view_dispatcher.h>
 
 #include <stdlib.h>
 
