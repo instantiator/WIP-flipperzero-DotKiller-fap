@@ -10,7 +10,7 @@
 
 #include <stdlib.h>
 
-#include "confirm_dotkiller.h"
+#include "macos_dotkiller.h"
 
 #include "macos_dotkiller_icons.h"
 
