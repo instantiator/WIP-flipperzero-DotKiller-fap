@@ -6,6 +6,7 @@
 #include <gui/elements.h>
 #include <dialogs/dialogs.h>
 #include <stream/stream.h>
+#include <view/view_dispatcher.h>
 
 #include <stdlib.h>
 
@@ -146,17 +147,17 @@ static void dotkill_render_callback(Canvas* canvas, void* context) {
 	canvas_draw_line(canvas, 113, 13, 119, 19);
 	canvas_draw_line(canvas, 114, 12, 120, 18);
 	canvas_draw_box(canvas, 120, 16, 3, 4);
-	canvas_draw_icon(canvas, 57, 22, &I_Space_65x18)
-	canvas_draw_icon(canvas, 57, 42, &I_Space_65x18)
+	canvas_draw_icon(canvas, 57, 22, &I_Space_65x18);
+	canvas_draw_icon(canvas, 57, 42, &I_Space_65x18);
 	canvas_set_font(canvas, FontPrimary);
-	canvas_draw_str(canvas, 82, 34, "Clean")
+	canvas_draw_str(canvas, 82, 34, "Clean");
 	canvas_set_font(canvas, FontPrimary);
-	canvas_draw_str(canvas, 87, 54, "Exit")
-	canvas_draw_icon(canvas, 74, 46, &I_Pin_back_arrow_10x8)
-	canvas_draw_icon(canvas, 70, 26, &I_Ok_btn_9x9)
+	canvas_draw_str(canvas, 87, 54, "Exit");
+	canvas_draw_icon(canvas, 74, 46, &I_Pin_back_arrow_10x8);
+	canvas_draw_icon(canvas, 70, 26, &I_Ok_btn_9x9);
 	extern const Icon I_Target_40x40;
-	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40)
-	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40)
+	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40);
+	canvas_draw_icon(canvas, 10, 20, &I_Target_40x40);
 
 }
 
