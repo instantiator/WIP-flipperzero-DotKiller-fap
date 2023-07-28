@@ -1,5 +1,5 @@
 # flipperzero-dotkiller-fap     
-Clean .dotfiles left behind after plugging FLIPPER SD into macOS system directly from you Flipper Zero
+Clean in one click, directly from your Flipper Zero all the .hiddenfiles, stored in your Device, after plugging the FLIPPER SD card into macOS system. 
 
 This FAP (Flipper APplication) do the same work that the "dotclean" shell's command do on macOS.      
 It cleans up all the useless ".dotfiles" that apps such as "Time Machine" creates on a external drive, everytime you put stuffs from macOS to the external drive. (These files will be visibles in the Flipper Zero's browser and various archives as e "._copy" of every files you dragged and dropped on your FLIPPER SD.        
