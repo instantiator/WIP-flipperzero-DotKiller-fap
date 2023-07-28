@@ -1,9 +1,10 @@
 #include <furi.h>
 #include <furi_hal.h>
 #include <gui/gui.h>
+#include <gui/elements.h>
+#include <gui/view_dispatcher.h>
 #include <input/input.h>
 #include <storage/storage.h>
-#include <gui/elements.h>
 #include <dialogs/dialogs.h>
 #include <stream/stream.h>
 
