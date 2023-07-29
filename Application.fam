@@ -4,13 +4,18 @@ App(
     fap_version=(1,0),
     apptype=FlipperAppType.EXTERNAL,
     entry_point="flipper_dotkiller_app",
-    requires=["gui", "storage"],
+    requires=[
+	"gui", 
+	"storage",
+	"dialogs",
+	"input"
+	],
     stack_size=2 * 1024,
     cdefines=["APP_DOTKILER"],
     fap_icon="icon.png",
     fap_category="Tools",
     fap_icon_assets="images"
     fap_author="47lecoste a.k.a. grugnoymeme",
-    fap_description="Delete all the "._hiddenfiles" created by macOS, in one click",
+    fap_description="Delete all the junk "._hiddenfiles" created by macOS, in one click",
     fap_weburl="https://github.com/grugnoymeme/flipperzero-dotkiller-fap"
 }
