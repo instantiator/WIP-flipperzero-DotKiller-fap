@@ -32,7 +32,7 @@ jobs:
         with:
           sdk-channel: ${{ matrix.sdk-channel }}
           sdk-index-url: ${{ matrix.sdk-index-url }}
-          app-dir: resistors
+          app-dir: dotkiller-app
       - name: Upload app artifacts
         uses: actions/upload-artifact@v3
         with:
